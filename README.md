@@ -1,271 +1,234 @@
-# IntelliScrape Pro - Enterprise Web Scraping Platform
-
-> **Note:** This is a documentation repository. The source code is proprietary and maintained in a private repository.
-
-## Project Status
-- **Source Code**: Private/Proprietary
-- **Documentation**: Public
-- **Development**: Active
-- **Version**: 2.0
-
----
+# IntelliScrape Pro - User Guide
 
 ## Overview
 
-IntelliScrape Pro is an enterprise-grade web scraping platform designed for e-commerce data extraction. The application provides automated product discovery, comprehensive data extraction, and AI-powered content generation capabilities.
-
-### Key Features
-
-- **Automated URL Discovery**: Extract product URLs from category and homepage listings
-- **Comprehensive Data Extraction**: Capture product names, prices, descriptions, images, and specifications
-- **AI-Powered Enhancement**: Generate product descriptions and SKUs using Groq AI
-- **Session Management**: Track and organize multiple scraping sessions
-- **Multiple Export Formats**: CSV, Excel, JSON with platform-specific formatting
-- **Real-time Progress Tracking**: Monitor extraction progress with detailed metrics
+IntelliScrape Pro is a web-based tool for extracting product data from e-commerce websites. This guide will help you navigate and use the platform effectively.
 
 ---
 
-## Technology Stack
+## Getting Started
 
-| Component | Technology |
-|-----------|------------|
-| **Backend** | Python 3.9+, Flask 2.0+ |
-| **Frontend** | HTML5, CSS3, JavaScript ES6+ |
-| **Scraping Engine** | Firecrawl API, BeautifulSoup4 |
-| **AI Integration** | Groq AI (Llama 3.1) |
-| **Data Formats** | CSV, JSON, Excel |
+### First-Time Setup
 
----
+1. **Access the Platform**
+   - Open your web browser
+   - Navigate to the IntelliScrape Pro URL
+   - Bookmark the page for easy access
 
-## System Requirements
+2. **Configure Your API Keys**
+   - Click the Settings button in the header
+   - Enter your Firecrawl API key (required)
+   - Enter your Groq AI key (optional, for AI features)
+   - Click Save Settings
 
-- Python 3.9 or higher
-- 4GB RAM minimum
-- Active internet connection
-- Firecrawl API key (required)
-- Groq AI API key (optional)
+### Obtaining API Keys
 
----
+**Firecrawl API Key (Required)**
+- Visit https://www.firecrawl.dev
+- Sign up for a free account
+- Go to your dashboard → API Keys
+- Copy the key and paste in Settings
 
-## Installation Guide
-
-### 1. Clone Repository
-```bash
-git clone [repository-url]
-cd intelliscrape-pro
-```
-
-### 2. Set Up Virtual Environment
-```bash
-# Windows
-python -m venv venv
-venv\Scripts\activate
-
-# macOS/Linux
-python3 -m venv venv
-source venv/bin/activate
-```
-
-### 3. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Configure Environment Variables
-Create a `.env` file in the root directory:
-```
-FIRECRAWL_API_KEY=your_firecrawl_key
-GROQ_API_KEY=your_groq_key
-```
-
-### 5. Launch Application
-```bash
-python app.py
-```
-
-Access the application at `http://localhost:5000`
+**Groq AI Key (Optional)**
+- Visit https://console.groq.com
+- Create a free account
+- Navigate to API Keys
+- Generate and copy your key
 
 ---
 
-## User Guide
+## How to Scrape Products
 
-### Getting Started with API Keys
+### Step 1: Extract Product URLs
 
-#### Firecrawl API (Required)
-1. Visit [Firecrawl.dev](https://www.firecrawl.dev)
-2. Create an account
-3. Navigate to API Keys section
-4. Generate and copy your API key
-5. Add to Settings in the application
+1. In the "URL Discovery" section, enter homepage or category URLs
+2. Enter one URL per line
+3. Click "Initialize Extraction"
+4. Wait for the system to find product URLs
+5. Review the discovered URLs in the results box
 
-#### Groq AI API (Optional)
-1. Visit [Groq Console](https://console.groq.com)
-2. Register for an account
-3. Generate an API key
-4. Add to Settings if using auto-generation features
+### Step 2: Scrape Product Data
 
-### Scraping Workflow
-
-#### Phase 1: URL Discovery
-1. Enter homepage or category URLs
-2. Click "Initialize Extraction"
-3. System automatically discovers product URLs
-4. Review and edit discovered URLs as needed
-
-#### Phase 2: Data Extraction
-1. Confirm or paste product URLs
-2. Configure extraction settings
+1. Product URLs will auto-populate from Step 1
+2. Or paste your own product URLs directly
 3. Click "Begin Scraping"
-4. Monitor real-time progress
-5. View results in data table
+4. Watch the progress bar for real-time updates
+5. Products will appear in the table below when complete
 
-#### Phase 3: Data Management
-1. Edit individual cells by clicking
-2. Apply bulk operations via Quick Actions
-3. Export data in desired format
-4. Finalize session for archival
+### Step 3: Review and Edit
 
----
+1. Click any cell in the results table to edit
+2. Use Quick Actions buttons for bulk updates:
+   - Set all stock levels
+   - Apply markup to prices
+   - Activate all products
 
-## Configuration Options
+### Step 4: Export Your Data
 
-### Application Settings
-- **Timeout**: Request timeout duration (default: 30 seconds)
-- **Max Products**: Maximum products per session (default: 50)
-- **Auto-Generate SKU**: Enable automatic SKU generation
-- **Auto-Generate Description**: Enable AI description generation
-
-### Field Selection
-Configure which data fields to extract:
-- Product Name (required)
-- SKU (required)
-- Category
-- Brand
-- Pricing Information
-- Stock Levels
-- Specifications
-- Product Images
+1. Click "Finalize Session"
+2. Choose your export format:
+   - CSV - Universal spreadsheet format
+   - Excel - For Microsoft Excel
+   - JSON - For developers
+3. File will download to your computer
 
 ---
 
-## API Endpoints
+## Features Guide
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/extract-urls` | POST | Discover product URLs from homepage |
-| `/api/scrape-products` | POST | Extract product details |
-| `/api/job/{job_id}` | GET | Check job status |
-| `/api/validate-key` | POST | Validate API keys |
-| `/api/download-csv` | GET | Export scraped data |
-| `/api/status` | GET | System status check |
+### Session Management
+- **Active Session**: Your current working session
+- **Completed Sessions**: View past scraping sessions
+- **Auto-save**: Enable in Settings to save progress automatically
+
+### Advanced Configuration
+Click "Advanced Configuration" to customize:
+- Which fields to extract
+- Default values for stock and status
+- Field selection for different platforms
+
+### Quick Actions
+- **Set Stock**: Apply the same stock level to all products
+- **Apply Markup**: Add percentage markup to wholesale prices
+- **Activate All**: Set all products to active status
+
+### Settings Options
+- **Timeout**: How long to wait for each page (default: 30 seconds)
+- **Max Products**: Limit per session (default: 50)
+- **Auto-Generate SKU**: Create product codes automatically
+- **Auto-Generate Description**: Use AI to write descriptions
 
 ---
 
 ## Troubleshooting
 
-### Common Issues
+### "API Key Invalid"
+- Check you copied the complete key
+- Make sure there are no spaces
+- Try generating a new key from your provider
 
-**API Key Validation Failed**
-- Verify the complete key is copied without spaces
-- Check account status on provider's dashboard
-- Generate a new key if necessary
+### "No Products Found"
+- Verify the URL is a product listing or category page
+- Try a different page from the same website
+- Some sites may have anti-scraping protection
 
-**No Products Found**
-- Confirm website is e-commerce platform
-- Try different category or listing page
-- Check if site requires authentication
+### Products Not Appearing
+- Check the API Status indicator (should show "Online")
+- Verify your internet connection
+- Refresh the page and try again
 
-**SKU Generation Not Working**
-- Enable Auto-Generate SKU in Settings
-- Ensure products have valid names
-- Check browser console for errors
+### Can't Export Data
+- Make sure you have at least one product scraped
+- Check browser popup blocker settings
+- Try a different export format
 
-**Extraction Timeout**
-- Increase timeout value in Settings
-- Check internet connection stability
-- Verify API service status
+### Session Not Saving
+- Enable "Auto-save progress" in Settings
+- Check browser local storage is enabled
+- Don't use private/incognito mode
+
+---
+
+## Tips for Best Results
+
+1. **Start Small**: Test with 5-10 products first
+2. **Use Category Pages**: More reliable than homepage URLs
+3. **Check API Status**: Green means ready to scrape
+4. **Save Regularly**: Use auto-save for large batches
+5. **Edit Before Export**: Review and clean data in the table
+
+---
+
+## Understanding the Interface
+
+### Header Bar
+- **API Status**: Shows if services are connected
+- **Module Status**: Shows if scraper is ready
+- **Dark Mode**: Toggle for comfortable viewing
+
+### Progress Indicators
+- **Progress Bar**: Shows completion percentage
+- **Status Text**: Current operation details
+- **Time Estimates**: Expected completion time
+- **Processing Speed**: Items per minute
+
+### Results Table
+- **Editable Cells**: Click to modify any value
+- **Auto-save**: Changes are saved automatically
+- **Sorting**: Click column headers to sort
+
+---
+
+## Export Formats Explained
+
+**CSV Format**
+- Opens in Excel, Google Sheets
+- Best for general use
+- Compatible with most systems
+
+**Excel Format**
+- Native Excel file
+- Preserves formatting
+- Best for Excel users
+
+**JSON Format**
+- For developers and APIs
+- Structured data format
+- Best for integrations
 
 ---
 
 ## Frequently Asked Questions
 
-**Q: What websites are supported?**
-A: The platform works best with standard e-commerce sites built on Shopify, WooCommerce, Magento, and similar platforms.
+**How many products can I scrape?**
+Free tier allows approximately 500 products per month.
 
-**Q: What are the extraction limits?**
-A: Limits depend on your Firecrawl API tier. Free tier typically allows 500 pages per month.
+**Can I pause and resume?**
+Enable auto-save in Settings. Your progress saves every 10 products.
 
-**Q: Can I resume interrupted sessions?**
-A: Yes, enable "Auto-save progress" in Settings to save progress every 10 products.
+**Why is scraping slow?**
+Speed depends on the target website and API limits. Normal speed is 2-3 products per second.
 
-**Q: Which export format should I use?**
-A: CSV for universal compatibility, Excel for manual editing, JSON for API integrations.
+**Can I scrape any website?**
+Works best with standard e-commerce sites. Some sites with protection may not work.
 
-**Q: Is batch processing supported?**
-A: Yes, you can process multiple URLs simultaneously and apply bulk operations to results.
+**Is my data private?**
+All data stays in your browser. Only API keys are used for external services.
 
----
-
-## Performance Optimization
-
-### Best Practices
-- Process URLs in batches of 20-30 for optimal performance
-- Enable auto-save for large extraction sessions
-- Use specific category pages rather than entire site maps
-- Configure appropriate timeout values based on target site
-
-### Rate Limiting
-- Default: 2 requests per second
-- Adjustable based on API tier
-- Automatic retry on rate limit errors
+**How do I scrape multiple sites?**
+Complete one site, export data, then start a new session for the next site.
 
 ---
 
-## Data Privacy & Security
+## Quick Reference
 
-- API keys are stored locally in browser storage
-- No data is transmitted to third parties except configured APIs
-- Session data can be exported and deleted at any time
-- All API communications use HTTPS encryption
+### Keyboard Shortcuts
+- **Enter**: Save cell edit
+- **Escape**: Cancel cell edit
+- **Tab**: Move to next cell
 
----
+### Status Indicators
+- **Green**: System ready
+- **Yellow**: Processing
+- **Red**: Error or offline
 
-## System Architecture
-
-```
-Frontend (Browser)
-    ├── User Interface (HTML/CSS/JS)
-    ├── Session Management
-    └── Real-time Updates
-         |
-    Flask Server
-    ├── API Routes
-    ├── Job Queue Management
-    └── Data Processing
-         |
-    External APIs
-    ├── Firecrawl (Scraping)
-    └── Groq AI (Enhancement)
-```
+### Session States
+- **Active**: Currently working
+- **Completed**: Finished and exported
+- **Auto-saved**: Partially complete
 
 ---
 
-## Version History
+## Need Help?
 
-- **v2.0** - Current version with AI integration and session management
-- **v1.5** - Added bulk operations and field selection
-- **v1.0** - Initial release with basic scraping functionality
+If you encounter issues not covered in this guide:
 
----
-
-## License
-
-This software is proprietary and confidential. All rights reserved.
+1. Check the API Status indicator
+2. Refresh the page
+3. Clear browser cache
+4. Try a different browser
+5. Verify API keys are valid
 
 ---
 
-## Contact & Support
-
-For technical support or inquiries, please contact the development team through internal channels.
-
-**Last Updated:** January 2025
+**Version 2.0** | Last Updated: January 2025
