@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketPlace Scraper Pro - Multi-Platform Product Discovery</title>
+
+    <!-- Futuristic Logo as Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/static/logo.svg">
+    <link rel="apple-touch-icon" href="/static/logo.svg">
+    <link rel="stylesheet" href="/static/css/style.css?v=1007">
+</head>
+<body>
+    <!-- Professional Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-section">
+                <h1>MarketPlace<span class="pro">PRO</span></h1>
+                <span class="tagline">Multi-Platform Product Discovery</span>
+            </div>
+            <nav class="header-nav">
+                <button class="nav-btn" onclick="showHelp()">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3m.08 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Help
+                </button>
+                <button class="nav-btn" onclick="toggleSettings()">Settings</button>
+                <button class="nav-btn" onclick="toggleTheme()" id="themeToggle">Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Settings Modal - Professional Design -->
+    <div id="settingsModal" class="modal fade-modal settings-modal">
+        <div class="modal-content modern-modal">
+            <div class="modal-header-modern">
+                <h2>Settings</h2>
+                <button class="modal-close-btn" onclick="toggleSettings()">&times;</button>
+            </div>
+
+            <div class="settings-modern">
+                <!-- API Configuration -->
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+                        </svg>
+                        <h3>API Configuration</h3>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="api-input-group">
+                            <label class="input-label">
+                                Firecrawl API Key
+                                <span class="required-badge">Required</span>
+                            </label>
+                            <div class="input-with-status">
+                                <input type="password" id="apiKey" placeholder="fc-xxxxxxxxxxxx" class="modern-input"
+                                       onblur="validateApiKey('firecrawl')"
+                                       oninput="clearValidationStatus('firecrawl')">
+                                <div class="api-validation" id="firecrawlValidation" style="display: none;">
+                                    <span class="api-status-icon"></span>
+                                    <span class="api-status-text"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="api-input-group">
+                            <label class="input-label">
+                                Groq AI Key
+                                <span class="optional-badge">Optional for AI descriptions</span>
+                            </label>
+                            <div class="input-with-status">
+                                <input type="password" id="groqKey" placeholder="gsk_xxxxxxxxxxxx or gsk-xxxxxxxxxxxx" class="modern-input"
+                                       onblur="validateApiKey('groq')"
+                                       oninput="clearValidationStatus('groq')">
+                                <div class="api-validation" id="groqValidation" style="display: none;">
+                                    <span class="api-status-icon"></span>
+                                    <span class="api-status-text"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Settings -->
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                        <h3>Performance</h3>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="settings-row">
+                            <div class="settings-field">
+                                <label class="input-label">Request Timeout</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="timeout" value="10" min="5" max="30" class="modern-input compact">
+                                    <span class="field-unit">seconds</span>
+                                </div>
+                                <p class="field-description">Time to wait for each page response. Lower values improve speed but may fail on slow sites.</p>
+                            </div>
+                            <div class="settings-field">
+                                <label class="input-label">Max Products</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="maxProducts" value="500" min="10" max="5000" class="modern-input compact">
+                                    <span class="field-unit">per site</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="settings-row">
+                            <div class="settings-field">
+                                <label class="input-label">API Retry Attempts</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="apiRetries" value="1" min="1" max="5" class="modern-input compact">
+                                    <span class="field-unit">retries</span>
+                                </div>
+                                <p class="field-description">Number of retry attempts for failed API calls (1-5). Higher values use more API credits.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="modern-btn primary" onclick="saveSettings()">Save Changes</button>
+                <button class="modern-btn ghost" onclick="toggleSettings()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal fade-modal">
+        <div class="modal-content help-modal">
+            <div class="modal-header-modern">
+                <h2>Getting Started Guide</h2>
+                <button class="modal-close-btn" onclick="closeHelp()">&times;</button>
+            </div>
+
+            <div class="help-content">
+                <!-- Quick Start Section -->
+                <div class="help-section">
+                    <div class="help-section-header">
+                        <svg class="help-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <h3>Quick Start</h3>
+                    </div>
+                    <div class="help-section-body">
+                        <ol class="help-steps">
+                            <li>
+                                <strong>Set up API Keys:</strong> Go to Settings and add your Firecrawl API key (required). The Groq AI key is optional for AI descriptions.
+                            </li>
+                            <li>
+                                <strong>Phase 1 - Find Products:</strong> Enter homepage URLs to discover product links automatically.
+                            </li>
+                            <li>
+                                <strong>Phase 2 - Extract Data:</strong> Scrape detailed information from the discovered product URLs.
+                            </li>
+                            <li>
+                                <strong>Export Results:</strong> Download your data as CSV in various formats (JustSell, WSMarketplace).
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Phase 1 Guide -->
+                <div class="help-section">
+                    <div class="help-section-header">
+                        <svg class="help-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <h3>Phase 1: URL Discovery</h3>
+                    </div>
+                    <div class="help-section-body">
+                        <p class="help-text">This phase helps you find product URLs from main category or homepage URLs.</p>
+                        <div class="help-tips">
+                            <div class="help-tip">
+                                <span class="tip-label">Input:</span>
+                                <span class="tip-text">Enter homepage or category URLs (one per line)</span>
+                            </div>
+                            <div class="help-tip">
+                                <span class="tip-label">Process:</span>
+                                <span class="tip-text">The system extracts product links from sitemaps and pages</span>
+                            </div>
+                            <div class="help-tip">
+                                <span class="tip-label">Output:</span>
+                                <span class="tip-text">List of product URLs ready for detailed scraping</span>
+                            </div>
+                            <div class="help-tip info">
+                                <span class="tip-label">Tip:</span>
+                                <span class="tip-text">For paginated sites, manually add URLs from page 2, 3, etc. for complete coverage</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Intelligence Engine Guide -->
+                <div class="help-section">
+                    <div class="help-section-header">
+                        <svg class="help-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                        <h3>Intelligence Engine Selection</h3>
+                    </div>
+                    <div class="help-section-body">
+                        <p class="help-text">Choose the optimal AI extraction method for your target websites.</p>
+                        <div class="help-tips">
+                            <div class="help-tip">
+                                <span class="tip-label">WSMarketplace PRO:</span>
+                                <span class="tip-text">Complete extraction with detailed specs, price validation, and comprehensive data - optimized for wholesale marketplace format</span>
+                            </div>
+                            <div class="help-tip">
+                                <span class="tip-label">JustSell PRO:</span>
+                                <span class="tip-text">Shopify-compatible format with hierarchical categories and e-commerce fields - optimized for JustSell integration</span>
+                            </div>
+                            <div class="help-tip info">
+                                <span class="tip-label">Auto-Save:</span>
+                                <span class="tip-text">Your selection is saved automatically and applies to all future scraping sessions</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 2 Guide -->
+                <div class="help-section">
+                    <div class="help-section-header">
+                        <svg class="help-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                        <h3>Phase 2: Data Extraction</h3>
+                    </div>
+                    <div class="help-section-body">
+                        <p class="help-text">Extract detailed product information from URLs.</p>
+                        <div class="help-tips">
+                            <div class="help-tip">
+                                <span class="tip-label">Auto-SKU:</span>
+                                <span class="tip-text">Automatically generates unique product codes when missing</span>
+                            </div>
+                            <div class="help-tip">
+                                <span class="tip-label">AI Descriptions:</span>
+                                <span class="tip-text">Uses Groq AI to create professional descriptions (requires API key)</span>
+                            </div>
+                            <div class="help-tip">
+                                <span class="tip-label">Sessions:</span>
+                                <span class="tip-text">Data is saved to your current session automatically</span>
+                            </div>
+                            <div class="help-tip success">
+                                <span class="tip-label">Best Practice:</span>
+                                <span class="tip-text">Process 50-100 URLs at a time for optimal performance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Features Overview -->
+                <div class="help-section">
+                    <div class="help-section-header">
+                        <svg class="help-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                        </svg>
+                        <h3>Key Features</h3>
+                    </div>
+                    <div class="help-section-body">
+                        <div class="feature-grid">
+                            <div class="feature-item">
+                                <strong>Smart Extraction</strong>
+                                <span>AI-powered data extraction with fallback methods</span>
+                            </div>
+                            <div class="feature-item">
+                                <strong>Session Management</strong>
+                                <span>Organize and track multiple scraping sessions</span>
+                            </div>
+                            <div class="feature-item">
+                                <strong>Export Formats</strong>
+                                <span>CSV formats for various e-commerce platforms</span>
+                            </div>
+                            <div class="feature-item">
+                                <strong>Data Enhancement</strong>
+                                <span>Auto-generate SKUs and descriptions</span>
+                            </div>
+                            <div class="feature-item">
+                                <strong>Inventory Settings</strong>
+                                <span>Configure stock, status, and markup</span>
+                            </div>
+                            <div class="feature-item">
+                                <strong>Real-time Progress</strong>
+                                <span>Track extraction with live updates</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Keyboard Shortcuts -->
+                <div class="help-section">
+                    <div class="help-section-header">
+                        <svg class="help-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        <h3>Pro Tips</h3>
+                    </div>
+                    <div class="help-section-body">
+                        <ul class="pro-tips-list">
+                            <li>Use <kbd>Tab</kbd> to accept pagination suggestions in URL fields</li>
+                            <li>Enable "Auto-save progress" to prevent data loss</li>
+                            <li>Check API status in the top status bar before starting</li>
+                            <li>Finalize sessions regularly to keep data organized</li>
+                            <li>Use the dark mode toggle for comfortable viewing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Support Section -->
+                <div class="help-section">
+                    <div class="help-section-header">
+                        <svg class="help-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        <h3>Need More Help?</h3>
+                    </div>
+                    <div class="help-section-body">
+                        <p class="help-text">For additional support or to report issues:</p>
+                        <div class="support-options">
+                            <a href="https://github.com/Uptivity/IntelliScrape-Pro/issues" target="_blank" class="support-link">
+                                Report an Issue
+                            </a>
+                            <a href="https://github.com/Uptivity/IntelliScrape-Pro" target="_blank" class="support-link">
+                                View Documentation
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="modern-btn primary" onclick="closeHelp()">Got It</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <main>
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <div class="status-item">
+                    <span class="status-label">API Status:</span>
+                    <span id="apiStatus" class="status-value">Checking...</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Modules:</span>
+                    <span id="modulesStatus" class="status-value">Checking...</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Session:</span>
+                    <span id="sessionIndicator" class="status-value">New</span>
+                </div>
+            </div>
+
+            <!-- Phase 1: URL Discovery - Modern Design -->
+            <section class="card">
+                <div class="card-header">
+                    <div class="phase-badge">Phase 1</div>
+                    <div>
+                        <h2>Product Discovery</h2>
+                        <span class="card-subtitle">Find marketplace products for import</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="input-section">
+                        <label class="input-label">Marketplace Store URLs</label>
+                        <textarea id="homepageUrls"
+                                 class="modern-textarea"
+                                 placeholder="Enter marketplace store URLs (one per line)&#10;Example:&#10;https://supplier-store.com/&#10;https://wholesale-catalog.com/"
+                                 rows="5"></textarea>
+                        <p class="input-hint">
+                            <svg class="hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Discovers products from supplier catalogs and stores. For paginated catalogs, manually add URLs from page 2, 3, etc.
+                        </p>
+                    </div>
+
+                    <div class="action-section">
+                        <button class="modern-btn primary large" id="extractBtn" onclick="extractUrls()">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            <span class="btn-text">Initialize Extraction</span>
+                            <div class="btn-spinner" style="display: none;"></div>
+                        </button>
+                    </div>
+
+                    <div id="extractProgress" class="progress-container modern" style="display:none;">
+                        <div class="progress-header">
+                            <span class="progress-label">Extracting URLs</span>
+                            <span class="progress-percentage" id="extractProgressPercentage">0%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill animated" id="extractProgressBar"></div>
+                        </div>
+                        <p id="extractStatus" class="progress-status">Processing...</p>
+                        <div class="progress-actions">
+                            <button class="modern-btn danger" id="stopExtractBtn" onclick="stopExtraction()">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="6" y="6" width="12" height="12"/>
+                                </svg>
+                                <span class="btn-text">Stop Extraction</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="extractResults" class="results-section modern" style="display:none;">
+                        <div class="results-header">
+                            <h3>Discovered URLs</h3>
+                            <span class="results-count" id="urlCount">0 URLs found</span>
+                        </div>
+                        <textarea id="productUrls" class="modern-textarea readonly" rows="8" readonly></textarea>
+                        <button class="modern-btn secondary" onclick="copyToScraper()">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                            </svg>
+                            Transfer to Scraping Queue
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+
+
+            <!-- Intelligence Engine Selection -->
+            <section class="card">
+                <div class="card-header">
+                    <div class="phase-badge intelligence">Intelligence Engine</div>
+                    <div>
+                        <h2>Choose Your Marketplace Format</h2>
+                        <span class="card-subtitle">Select the optimal format for your target marketplace</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="intelligence-selector">
+                        <div class="intelligence-option" onclick="selectIntelligenceMode('wsmarketplace')">
+                            <input type="radio" id="wsmarketplaceModeMain" name="extractionMode" value="wsmarketplace">
+                            <div class="intelligence-card standard-selection">
+                                <div class="intelligence-header">
+                                    <div class="intelligence-title">
+                                        <span class="mode-name">WSMarketplace</span>
+                                        <span class="pro-badge-small">PRO</span>
+                                    </div>
+                                    <div class="selection-indicator" id="standardIndicator">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <path d="M20 6L9 17l-5-5"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <p class="intelligence-description">B2B wholesale marketplace designed for supplier relationships, bulk ordering, RFQ systems, and tiered pricing structures. Perfect for distributor networks and commercial buyers.</p>
+                                <div class="intelligence-features">
+                                    <span class="feature-pill">RFQ System</span>
+                                    <span class="feature-pill">Bulk Pricing</span>
+                                    <span class="feature-pill">B2B Analytics</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="intelligence-option" onclick="selectIntelligenceMode('justsell')">
+                            <input type="radio" id="justsellModeMain" name="extractionMode" value="justsell">
+                            <div class="intelligence-card wholesaler-selection">
+                                <div class="intelligence-header">
+                                    <div class="intelligence-title">
+                                        <span class="mode-name">JustSell</span>
+                                        <span class="pro-badge-small">PRO</span>
+                                    </div>
+                                    <div class="selection-indicator" id="wholesalerIndicator">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <path d="M20 6L9 17l-5-5"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <p class="intelligence-description">Consumer-focused e-commerce platform optimized for Shopify integration, direct-to-consumer sales, and seamless online shopping experiences. Built for retail brands and individual sellers.</p>
+                                <div class="intelligence-features">
+                                    <span class="feature-pill">Shopify Ready</span>
+                                    <span class="feature-pill">B2C Optimized</span>
+                                    <span class="feature-pill">Fast Checkout</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="intelligence-status">
+                        <span class="status-text">Selected: <strong id="selectedMode" style="color: #ef4444;">None - Please Select</strong></span>
+                        <div id="formatLockNotice" style="display: none; margin-top: 8px; padding: 8px 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; border-radius: 6px; font-size: 12px; color: #10b981;">
+                            <svg style="width: 14px; height: 14px; display: inline-block; margin-right: 6px; vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <circle cx="12" cy="16" r="1"/>
+                                <path d="m7 11 0-5a5 5 0 0 1 10 0v5"/>
+                            </svg>
+                            <span id="formatLockText">Session format locked to prevent CSV conflicts</span>
+                        </div>
+                    </div>
+
+                    <!-- Essential Settings -->
+                    <div class="intelligence-settings">
+                        <div class="settings-header-enhanced">
+                            <div class="settings-icon-wrapper">
+                                <svg class="settings-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+                                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                                </svg>
+                                <div class="settings-title-group">
+                                    <h4 class="settings-title">Configuration</h4>
+                                    <span class="settings-badge">Essential</span>
+                                </div>
+                            </div>
+                            <p class="settings-description-enhanced">Fine-tune data processing and product enhancement options</p>
+                        </div>
+                        <div class="settings-content-enhanced">
+                            <!-- Inventory Configuration Section (moved to top) -->
+                            <div class="settings-section">
+                                <div class="section-divider">
+                                    <div class="section-label">
+                                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                                        </svg>
+                                        <span>Inventory Defaults</span>
+                                    </div>
+                                    <button class="section-toggle" onclick="toggleInventoryDefaults()" id="inventoryToggle" aria-label="Toggle inventory defaults">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M6 9l6 6 6-6"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="inventory-defaults-content" id="inventoryDefaultsContent">
+                                    <div class="enhanced-input-grid inventory-spaced">
+                                        <!-- Basic Inventory Settings -->
+                                        <div class="input-card">
+                                            <label class="input-label-enhanced">Stock Quantity</label>
+                                            <input type="number" id="defaultStockMain" value="10" min="0" class="input-enhanced">
+                                            <span class="input-description">Default quantity for products without stock data</span>
+                                        </div>
+                                        <div class="input-card">
+                                            <label class="input-label-enhanced">Minimum Order</label>
+                                            <input type="number" id="defaultMinOrderMain" value="1" min="1" class="input-enhanced">
+                                            <span class="input-description">Minimum quantity customers can purchase</span>
+                                        </div>
+                                        <div class="input-card">
+                                            <label class="input-label-enhanced">Product Status</label>
+                                            <select id="defaultStatusMain" class="select-enhanced">
+                                                <option value="Active">Active</option>
+                                                <option value="Inactive">Inactive</option>
+                                                <option value="Draft">Draft</option>
+                                            </select>
+                                            <span class="input-description">Default visibility for new products</span>
+                                        </div>
+
+                                        <!-- Additional Business Settings -->
+                                        <div class="input-card">
+                                            <label class="input-label-enhanced">Default RFQ</label>
+                                            <select id="defaultRFQMain" class="select-enhanced">
+                                                <option value="Y">Yes</option>
+                                                <option value="N">No</option>
+                                            </select>
+                                            <span class="input-description">Request for Quote availability (WSMarketplace)</span>
+                                        </div>
+                                        <div class="input-card">
+                                            <label class="input-label-enhanced">Default Category</label>
+                                            <input type="text" id="defaultCategoryMain" value="General" class="input-enhanced">
+                                            <span class="input-description">Category for products without clear classification</span>
+                                        </div>
+                                        <div class="input-card">
+                                            <label class="input-label-enhanced">Default Supplier</label>
+                                            <input type="text" id="defaultSupplierMain" value="" class="input-enhanced" placeholder="Enter supplier name">
+                                            <span class="input-description">Default supplier name for tracking</span>
+                                        </div>
+                                        <div class="input-card">
+                                            <label class="input-label-enhanced">Default Weight (kg)</label>
+                                            <input type="number" id="defaultWeightMain" value="0.5" min="0" step="0.1" class="input-enhanced">
+                                            <span class="input-description">Default weight for shipping calculations</span>
+                                        </div>
+                                        <div class="input-card">
+                                            <label class="input-label-enhanced">Lead Time (days)</label>
+                                            <input type="number" id="defaultLeadTimeMain" value="3" min="0" class="input-enhanced">
+                                            <span class="input-description">Default delivery lead time</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Boolean Settings Grid (JustSell specific) -->
+                                    <div id="justSellBooleanSettings" class="enhanced-input-grid inventory-spaced" style="display: none;">
+                                    <div class="input-card">
+                                        <label class="input-label-enhanced">Is Featured</label>
+                                        <select id="isFeaturedMain" class="select-enhanced">
+                                            <option value="FALSE">FALSE</option>
+                                            <option value="TRUE">TRUE</option>
+                                        </select>
+                                        <span class="input-description">Mark products as featured items</span>
+                                    </div>
+                                    <div class="input-card">
+                                        <label class="input-label-enhanced">Continue Selling When Out of Stock</label>
+                                        <select id="continueSellingMain" class="select-enhanced">
+                                            <option value="FALSE">FALSE</option>
+                                            <option value="TRUE">TRUE</option>
+                                        </select>
+                                        <span class="input-description">Allow orders when stock is 0</span>
+                                    </div>
+                                    <div class="input-card">
+                                        <label class="input-label-enhanced">Published</label>
+                                        <select id="publishedMain" class="select-enhanced">
+                                            <option value="TRUE">TRUE</option>
+                                            <option value="FALSE">FALSE</option>
+                                        </select>
+                                        <span class="input-description">Make products visible on store</span>
+                                    </div>
+                                    <div class="input-card">
+                                        <label class="input-label-enhanced">Requires Shipping</label>
+                                        <select id="requiresShippingMain" class="select-enhanced">
+                                            <option value="TRUE">TRUE</option>
+                                            <option value="FALSE">FALSE</option>
+                                        </select>
+                                        <span class="input-description">Product needs to be shipped</span>
+                                    </div>
+                                    <div class="input-card">
+                                        <label class="input-label-enhanced">Taxable</label>
+                                        <select id="taxableMain" class="select-enhanced">
+                                            <option value="TRUE">TRUE</option>
+                                            <option value="FALSE">FALSE</option>
+                                        </select>
+                                        <span class="input-description">Apply tax to this product</span>
+                                    </div>
+                                    <div class="input-card">
+                                        <label class="input-label-enhanced">Available For Euronics</label>
+                                        <select id="euronicsMain" class="select-enhanced">
+                                            <option value="FALSE">FALSE</option>
+                                            <option value="TRUE">TRUE</option>
+                                        </select>
+                                        <span class="input-description">Make available for Euronics system</span>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+
+                            <!-- Data Enhancement Section -->
+                            <div class="settings-section">
+                                <div class="section-divider">
+                                    <div class="section-label">
+                                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                                        </svg>
+                                        <span>Data Enhancement</span>
+                                    </div>
+                                </div>
+                                <div class="enhancement-selector">
+                                    <div class="enhancement-option" onclick="toggleSKUGeneration()">
+                                        <input type="checkbox" id="autoGenerateSKUMain" checked>
+                                        <div class="enhancement-card sku-enhancement">
+                                            <div class="enhancement-header">
+                                                <div class="enhancement-title">
+                                                    <span class="feature-name">Auto-Generate SKUs</span>
+                                                    <span class="feature-badge">CORE</span>
+                                                </div>
+                                                <div class="toggle-indicator" id="skuIndicator">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                                        <path d="M20 6L9 17l-5-5"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <p class="enhancement-description">Automatically create unique product identifiers for items without SKUs using intelligent naming patterns.</p>
+                                            <div class="enhancement-features">
+                                                <span class="feature-pill">UUID Generation</span>
+                                                <span class="feature-pill">Pattern Matching</span>
+                                                <span class="feature-pill">Conflict Resolution</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="enhancement-option" onclick="toggleAIDescriptions()">
+                                        <input type="checkbox" id="autoGenerateDescriptionMain">
+                                        <div class="enhancement-card ai-enhancement">
+                                            <div class="enhancement-header">
+                                                <div class="enhancement-title">
+                                                    <span class="feature-name">AI Descriptions</span>
+                                                    <span class="feature-badge ai-badge">AI</span>
+                                                </div>
+                                                <div class="toggle-indicator" id="aiIndicator">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                                        <path d="M20 6L9 17l-5-5"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <p class="enhancement-description">Generate professional product descriptions using Groq AI with advanced natural language processing.</p>
+                                            <div class="enhancement-features">
+                                                <span class="feature-pill">Natural Language</span>
+                                                <span class="feature-pill">SEO Optimized</span>
+                                                <span class="feature-pill">Multi-Language</span>
+                                            </div>
+                                            <div id="groqKeyRequired" style="display: none;" class="api-warning">
+                                                <svg class="warning-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M12 9v4m0 4h.01M5.07 19h13.86a2 2 0 001.414-3.414L13.414 2.586a2 2 0 00-2.828 0L3.658 15.586A2 2 0 005.072 19z"/>
+                                                </svg>
+                                                <span>Groq API key required - Configure in Settings</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phase 2: Data Extraction - Modern Design -->
+            <section class="card">
+                <div class="card-header">
+                    <div class="phase-badge phase-2">Phase 2</div>
+                    <div>
+                        <h2>Product Import</h2>
+                        <span class="card-subtitle">Import products for your marketplace</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="input-section">
+                        <label class="input-label">Product URLs</label>
+                        <textarea id="scrapeUrls"
+                                 class="modern-textarea"
+                                 placeholder="Enter product URLs to import to your marketplace (one per line)"
+                                 rows="5"></textarea>
+                    </div>
+
+                    <div class="extraction-options modern">
+                        <div class="option-row">
+                            <label class="switch-container">
+                                <input type="checkbox" id="appendToSession" checked class="switch-input">
+                                <span class="switch-slider"></span>
+                                <span class="switch-label">Add to current session</span>
+                            </label>
+                            <p class="option-desc">Append results to existing session data</p>
+                        </div>
+                        <div class="option-row">
+                            <label class="switch-container">
+                                <input type="checkbox" id="autoSave" class="switch-input">
+                                <span class="switch-slider"></span>
+                                <span class="switch-label">Auto-save progress</span>
+                            </label>
+                            <p class="option-desc">Automatically save data during extraction</p>
+                        </div>
+                    </div>
+
+                    <div class="action-section">
+                        <button class="modern-btn primary large" id="scrapeBtn" onclick="scrapeProducts()">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            <span class="btn-text">Import Products</span>
+                            <div class="btn-spinner" style="display: none;"></div>
+                        </button>
+                    </div>
+
+                    <!-- Skeleton Loader -->
+                    <div id="scrapingSkeleton" class="skeleton-container" style="display: none;">
+                        <div class="skeleton-header">
+                            <div class="skeleton-line skeleton-title"></div>
+                            <div class="skeleton-line skeleton-subtitle"></div>
+                        </div>
+                        <div class="skeleton-items">
+                            <div class="skeleton-item">
+                                <div class="skeleton-image"></div>
+                                <div class="skeleton-content">
+                                    <div class="skeleton-line skeleton-name"></div>
+                                    <div class="skeleton-line skeleton-price"></div>
+                                    <div class="skeleton-line skeleton-description"></div>
+                                </div>
+                            </div>
+                            <div class="skeleton-item">
+                                <div class="skeleton-image"></div>
+                                <div class="skeleton-content">
+                                    <div class="skeleton-line skeleton-name"></div>
+                                    <div class="skeleton-line skeleton-price"></div>
+                                    <div class="skeleton-line skeleton-description"></div>
+                                </div>
+                            </div>
+                            <div class="skeleton-item">
+                                <div class="skeleton-image"></div>
+                                <div class="skeleton-content">
+                                    <div class="skeleton-line skeleton-name"></div>
+                                    <div class="skeleton-line skeleton-price"></div>
+                                    <div class="skeleton-line skeleton-description"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="scrapeProgress" class="progress-section fade-in" style="display:none;">
+                        <div class="progress-header">
+                            <div class="progress-info">
+                                <span id="scrapeStatus" class="progress-text">Processing...</span>
+                                <span id="progressStats" class="progress-stats">0/0 completed</span>
+                            </div>
+                            <div class="progress-timing">
+                                <span id="estimatedTime" class="time-estimate">Est: --</span>
+                                <span id="elapsedTime" class="time-elapsed">Elapsed: 0s</span>
+                            </div>
+                        </div>
+                        <div class="progress-percentage-container">
+                            <div class="progress-percentage" id="progressPercentage">0%</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="scrapeProgressBar"></div>
+                        </div>
+                        <div class="progress-speed">
+                            <span id="processingSpeed" class="speed-indicator">Speed: -- items/min</span>
+                        </div>
+                        <div class="progress-actions">
+                            <button class="modern-btn danger" id="stopScrapeBtn" onclick="stopScraping()">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="6" y="6" width="12" height="12"/>
+                                </svg>
+                                <span class="btn-text">Stop Scraping</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="scrapeResults" class="results fade-in" style="display:none;">
+                        <!-- Results Header with Stats -->
+                        <div class="results-header-modern">
+                            <div class="results-title-section">
+                                <h3 class="results-title">
+                                    <svg class="results-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 11H7a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2h-2M9 11V9a2 2 0 112 0v2M9 11h6"/>
+                                    </svg>
+                                    Imported Products
+                                </h3>
+                                <p class="results-subtitle">Review and manage your imported marketplace products</p>
+                            </div>
+                            <div class="results-stats">
+                                <div class="stat-card">
+                                    <div class="stat-number" id="totalProducts">0</div>
+                                    <div class="stat-label">Products</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number" id="totalBrands">0</div>
+                                    <div class="stat-label">Brands</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number" id="withSKU">0</div>
+                                    <div class="stat-label">With SKU</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Product Data Table -->
+                        <div class="product-table-container">
+                            <div id="productTable"></div>
+                        </div>
+
+                        <!-- Export and Finalize Section -->
+                        <div class="session-actions-modern">
+                            <div class="actions-section export-section-modern">
+                                <div class="section-header">
+                                    <h4>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3"/>
+                                        </svg>
+                                        Export Options
+                                    </h4>
+                                    <p>Download your data in various formats</p>
+                                </div>
+                                <div class="export-controls">
+                                    <input type="text" id="csvName" placeholder="Enter custom filename (optional)" class="export-filename-input">
+                                    <div class="export-format-buttons">
+                                        <button class="export-btn-modern csv" onclick="downloadCSV()">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                                <polyline points="14,2 14,8 20,8"/>
+                                            </svg>
+                                            CSV
+                                        </button>
+                                        <button class="export-btn-modern excel" onclick="downloadExcel()">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                                <polyline points="14,2 14,8 20,8"/>
+                                                <line x1="16" y1="13" x2="8" y2="15"/>
+                                                <line x1="8" y1="13" x2="16" y2="15"/>
+                                            </svg>
+                                            Excel
+                                        </button>
+                                        <button class="export-btn-modern json" onclick="downloadJSON()">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                                <polyline points="14,2 14,8 20,8"/>
+                                                <path d="M16 13H8M16 17H8M10 9H8"/>
+                                            </svg>
+                                            JSON
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Finalize Session Section -->
+                            <div class="actions-section finalize-section-modern">
+                                <div class="section-header finalize-header">
+                                    <h4>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M9 11H7a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2h-2M9 11V9a2 2 0 112 0v2M9 11h6"/>
+                                        </svg>
+                                        Complete Session
+                                    </h4>
+                                    <p>Ready to finalize? Save your work and start fresh</p>
+                                </div>
+
+                                <div class="finalize-content-modern">
+                                    <div class="finalize-checklist">
+                                        <div class="checklist-item">
+                                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                            <div class="checklist-text">
+                                                <strong>Review Complete</strong>
+                                                <span>All products have been extracted and verified</span>
+                                            </div>
+                                        </div>
+                                        <div class="checklist-item">
+                                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3"/>
+                                            </svg>
+                                            <div class="checklist-text">
+                                                <strong>Data Export</strong>
+                                                <span>Automatic CSV download included</span>
+                                            </div>
+                                        </div>
+                                        <div class="checklist-item">
+                                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M4 7h16l-1 10a2 2 0 01-2 2H7a2 2 0 01-2-2L4 7zM4 7l-1-3h3m0 0V1h8v3"/>
+                                            </svg>
+                                            <div class="checklist-text">
+                                                <strong>Safe Storage</strong>
+                                                <span>Session archived for future reference</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="finalize-action">
+                                        <div class="session-summary-card">
+                                            <div class="summary-stats">
+                                                <div class="summary-stat">
+                                                    <span class="stat-value" id="sessionProductCount">0</span>
+                                                    <span class="stat-label">Products Ready</span>
+                                                </div>
+                                                <div class="summary-stat">
+                                                    <span class="stat-value" id="sessionBrandCount">0</span>
+                                                    <span class="stat-label">Brands</span>
+                                                </div>
+                                            </div>
+                                            <button class="finalize-btn-modern" onclick="finalizeSession()">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M9 11H7a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2h-2M9 11V9a2 2 0 112 0v2M9 11h6"/>
+                                                </svg>
+                                                Complete & Save Session
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Detail Modal -->
+        <div id="detailModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="detailModalTitle">Details</h3>
+                    <span class="close" onclick="closeDetailModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div id="detailModalContent">
+                        <!-- Content will be dynamically generated -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="fire-container">
+                <div class="fire-text">Powered by</div>
+                <div class="fire-animation">
+                    <span class="fire-letter">F</span>
+                    <span class="fire-letter">i</span>
+                    <span class="fire-letter">r</span>
+                    <span class="fire-letter">e</span>
+                    <span class="fire-letter">c</span>
+                    <span class="fire-letter">r</span>
+                    <span class="fire-letter">a</span>
+                    <span class="fire-letter">w</span>
+                    <span class="fire-letter">l</span>
+                </div>
+                <div class="fire-text">& Advanced AI</div>
+            </div>
+            <p>MarketPlace Scraper Pro v2.0 | Multi-Platform Edition</p>
+
+        </footer>
+    </div>
+
+    <!-- Verification Popup -->
+    <div id="verificationModal" class="verification-modal">
+        <div class="verification-content">
+            <button class="verification-close" onclick="closeVerificationModal()">×</button>
+
+            <div class="verification-header">
+                <h3>System Verification</h3>
+                <p class="verification-subtitle">Checking system components...</p>
+            </div>
+
+            <div class="verification-checklist">
+                <div class="check-item" id="verify-api">
+                    <span class="check-icon status-pending">•</span>
+                    <span class="check-text">API Connection</span>
+                </div>
+
+                <div class="check-item" id="verify-modules">
+                    <span class="check-icon status-pending">•</span>
+                    <span class="check-text">Scraper Modules</span>
+                </div>
+
+                <div class="check-item" id="verify-firecrawl">
+                    <span class="check-icon status-pending">•</span>
+                    <span class="check-text">Firecrawl Service</span>
+                </div>
+
+                <div class="check-item" id="verify-ready">
+                    <span class="check-icon status-pending">•</span>
+                    <span class="check-text">System Ready</span>
+                </div>
+            </div>
+
+            <div class="verification-footer">
+                <div class="verification-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="verificationProgress"></div>
+                    </div>
+                    <span class="progress-text" id="verificationProgressText">Initializing...</span>
+                </div>
+                <button class="verification-continue" id="verificationContinue" onclick="continueAfterVerification()" disabled>
+                    Continue
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer"></div>
+
+    <!-- Finalize Confirmation Modal -->
+    <div id="finalizeModal" class="modal" style="display: none;">
+        <div class="modal-content modern-modal">
+            <div class="modal-header-modern">
+                <h2>Finalize Session</h2>
+                <button class="modal-close-btn" onclick="closeFinalizeModal()">&times;</button>
+            </div>
+            <div class="modal-body-modern">
+                <p style="color: var(--text-secondary); margin-bottom: 20px;">Review your session before finalizing</p>
+
+                <div class="finalize-summary-modern">
+                    <div class="info-row">
+                        <span class="info-label">Products to export:</span>
+                        <span class="info-value" id="confirmProductCount">0</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Session name:</span>
+                        <input type="text" id="finalizeSessionName" placeholder="Enter session name..." class="modern-input" style="flex: 1;">
+                    </div>
+                </div>
+
+                <div class="finalize-warning-modern">
+                    <div class="warning-header-modern">
+                        <svg style="width: 20px; height: 20px; color: #f59e0b;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 9v4m0 4h.01M5.07 19h13.86a2 2 0 001.414-3.414L13.414 2.586a2 2 0 00-2.828 0L3.658 15.586A2 2 0 005.072 19z"/>
+                        </svg>
+                        <span style="color: var(--text-primary); font-weight: 600;">Important Notes</span>
+                    </div>
+                    <ul style="margin: 10px 0; padding-left: 30px; color: var(--text-secondary);">
+                        <li>This action is permanent and cannot be reversed</li>
+                        <li>CSV file will be automatically downloaded</li>
+                        <li>Current session will be cleared after finalization</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modern-btn ghost" onclick="closeFinalizeModal()">Cancel</button>
+                <button class="modern-btn primary" onclick="confirmFinalization()">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                    </svg>
+                    Finalize & Export
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js?v=105"></script>
+</body>
+</html>

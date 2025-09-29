@@ -1,0 +1,53 @@
+# Environment variables (NEVER commit these!)
+.env
+.env.local
+.env.production
+
+# API Keys and secrets
+*.key
+*.pem
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+*.temp
+
+# Progress files
+*.progress
+*.lock
+
+# Build files
+dist/
+build/
+*.egg-info/
+
+# Test files
+test_*.txt
+test_*.csv

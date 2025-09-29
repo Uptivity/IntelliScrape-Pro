@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Flask
+instance/
+.webassets-cache
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+*.log
+*.csv
+ScraperFunctions/data/*.csv
+ScraperFunctions/data/*.txt
+ScraperFunctions/data/*.json
+sessions/
+downloads/
+
+# Environment variables
+.env
+.env.local
+
+# Test/Temporary files
+test_*
+temp_*
+*.tmp
+debug_*.py
+
+# Large files and zips
+*.zip
+IntelliScrape_Pro.zip
+MarketPlace_Scraper_Pro_DEPLOY.zip
+ov-shopify-converted(in).csv
+
+# Claude AI
+.claude/
+
+# Windows
+nul
+
+# Downloaded content
+ScraperFunctions/downloaded_images/
+ScraperFunctions/print_ready_images/

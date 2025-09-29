@@ -1,0 +1,22 @@
+# Core dependencies
+Flask==3.0.0
+flask-cors==4.0.0
+python-dotenv==1.0.0
+
+# Scraper dependencies
+requests==2.31.0
+beautifulsoup4==4.12.2
+tqdm==4.66.1
+Pillow==10.1.0
+firecrawl-py==0.0.16
+
+# AI/ML
+openai==1.3.0
+groq==0.4.1
+
+# Database (optional for future)
+# psycopg2-binary==2.9.9
+# redis==5.0.1
+
+# Production server
+gunicorn==21.2.0

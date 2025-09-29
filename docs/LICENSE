@@ -1,0 +1,81 @@
+MIT License
+
+Copyright (c) 2025 IntelliScrape Pro
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+🌊 IntelliScrape Pro - Enterprise Web Scraping Platform 🌊
+
+This software includes or may include components from the following projects:
+
+Flask - Web framework
+Copyright (c) 2010 by Armin Ronacher and contributors
+License: BSD-3-Clause
+
+Firecrawl - Web scraping API
+Copyright (c) Firecrawl Technologies
+License: As per Firecrawl API Terms of Service
+
+Groq - AI inference platform
+Copyright (c) Groq, Inc.
+License: As per Groq API Terms of Service
+
+BeautifulSoup4 - HTML/XML parser
+Copyright (c) Leonard Richardson
+License: MIT
+
+Requests - HTTP library
+Copyright (c) Kenneth Reitz
+License: Apache-2.0
+
+---
+
+Additional Terms:
+
+1. API Usage: This software integrates with third-party APIs (Firecrawl, Groq).
+   Users must comply with the respective terms of service and usage policies
+   of these external services.
+
+2. Rate Limiting: Users are responsible for adhering to rate limits imposed
+   by third-party services and must not use this software to violate any
+   service provider's terms.
+
+3. Data Responsibility: Users must ensure they have permission to scrape
+   target websites and comply with robots.txt files and terms of service
+   of target sites.
+
+4. Commercial Use: This software may be used for commercial purposes under
+   the MIT license terms, but users must ensure compliance with all
+   applicable laws and third-party service agreements.
+
+5. Attribution: While not required by the MIT license, attribution is
+   appreciated. Consider including a link to the original repository
+   if you distribute or modify this software.
+
+---
+
+For support and contributions:
+- Repository: https://github.com/yourusername/intelliscrape-pro
+- Issues: https://github.com/yourusername/intelliscrape-pro/issues
+- Email: support@intelliscrape.pro
+
+Built with 💙 by the IntelliScrape Pro team
+© 2025 IntelliScrape Pro. All rights reserved.

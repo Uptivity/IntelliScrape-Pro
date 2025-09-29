@@ -1,0 +1,42 @@
+{
+  "brand_mappings": {
+    "url_patterns": {
+      "muha": "Muha Meds",
+      "lava": "Lava",
+      "dialed": "Dialed Moods", 
+      "mood": "Dialed Moods",
+      "elf": "Elf Bar",
+      "geek": "Geek Bar",
+      "myster": "MYSTER"
+    },
+    "domain_overrides": {
+      "lavaplusvape.com": "Lava",
+      "dialedmoods.com": "Dialed Moods"
+    }
+  },
+  "category_mappings": {
+    "url_patterns": {
+      "disposable": "Disposable Vape",
+      "pod": "Pod Kit", 
+      "beverage": "Beverages",
+      "drink": "Beverages",
+      "seltzer": "Beverages",
+      "vape": "Disposable Vape",
+      "gummies": "Gummies",
+      "gummy": "Gummies",
+      "powder": "Powders",
+      "kratom": "Powders",
+      "shot": "Shots",
+      "pill": "Pills",
+      "capsule": "Pills",
+      "packet": "Packets",
+      "hydration": "Packets"
+    },
+    "priority_patterns": {
+      "energy-pack": "Energy Pack",
+      "energy pack": "Energy Pack",
+      "energy-shot": "Shots",
+      "energy shot": "Shots"
+    }
+  }
+}

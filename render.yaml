@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: intelliscrape-pro
+    runtime: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    envVars:
+      - key: FIRECRAWL_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+        value: optional
+    autoDeploy: true
